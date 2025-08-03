@@ -1,0 +1,101 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Donate{% endblock %}
+
+{% block content %}
+<section class="container py-5">
+  <h2 class="text-center mb-4">Make a Donation</h2>
+    <p class="text-center mb-4">Your support helps us continue our work. Please fill out the form below to make a donation.</p>
+    
+    
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST" enctype="multipart/form-data" action="{% url 'donate' %}" class="p-4 border rounded shadow-sm bg-light" novalidate>
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    <div class="form-group mb-3">
+      <label for="{{ form.name.id_for_label }}">Full Name</label>
+      {{ form.name|add_class:"form-control" }}
+      {{ form.name.errors }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="{{ form.email.id_for_label }}">Email</label>
+      {{ form.email|add_class:"form-control" }}
+      {{ form.email.errors }}
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="{{ form.amount.id_for_label }}">Donation Amount</label>
+      {{ form.amount|add_class:"form-control" }}
+      {{ form.amount.errors }}
+    </div>
+
+    <div class="form-group mb-4">
+      <label for="{{ form.payment_method.id_for_label }}">Select Payment Method</label>
+      {{ form.payment_method|add_class:"form-select" }}
+      {{ form.payment_method.errors }}
+    </div>
+
+    <div id="bank-info" class="mb-3" style="display:none;">
+      <h5>Bank Transfer Details</h5>
+      <p><strong>Bank Name:</strong> ZimBank</p>
+      <p><strong>Account Name:</strong> Donation Project</p>
+      <p><strong>Account Number:</strong> 123456789</p>
+      <p>Please upload proof of payment after completing your transfer.</p>
+    </div>
+
+    <div id="ecocash-info" class="mb-3" style="display:none;">
+      <h5>EcoCash Instructions</h5>
+      <p>Dial <strong>*151*1#</strong>, enter merchant code: <strong>12345</strong> and amount.</p>
+      <p>Then confirm the payment manually or upload proof.</p>
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="{{ form.proof.id_for_label }}">Upload Proof of Payment (if required)</label>
+      {{ form.proof|add_class:"form-control" }}
+      {{ form.proof.errors }}
+    </div>
+
+    <div class="form-check mb-4">
+      {{ form.terms|add_class:"form-check-input" }}
+      <label class="form-check-label" for="{{ form.terms.id_for_label }}">
+        I agree to the <a href="{% url 'terms' %}" target="_blank">terms and conditions</a>.
+      </label>
+      {{ form.terms.errors }}
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Donate Now</button>
+  </form>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const methodSelect = document.getElementById("id_payment_method");
+    const bankInfo = document.getElementById("bank-info");
+    const ecocashInfo = document.getElementById("ecocash-info");
+
+    function updatePaymentInfo() {
+      const method = methodSelect.value;
+      bankInfo.style.display = method === "bank" ? "block" : "none";
+      ecocashInfo.style.display = method === "ecocash" ? "block" : "none";
+    }
+
+    methodSelect.addEventListener("change", updatePaymentInfo);
+    updatePaymentInfo();
+  });
+</script>
+{% endblock %}

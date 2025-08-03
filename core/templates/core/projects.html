@@ -1,0 +1,71 @@
+{% extends "core/base.html" %}
+{%load static %}
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<style>
+  .project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+
+  .project-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+
+  .project-description {
+    font-size: 0.95rem;
+    color: #555;
+  }
+
+  .project-img {
+    border-radius: 10px;
+    object-fit: cover;
+    height: 200px;
+    width: 100%;
+  }
+
+  .btn-visit {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+  }
+
+  .btn-visit:hover {
+    background-color: #e3640c;
+    border-color: #e3640c;
+  }
+</style>
+
+<div class="container my-5">
+  <h2 class="mb-4 text-center">Our Projects</h2>
+
+  {% if projects %}
+    <div class="row g-4">
+      {% for project in projects %}
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 shadow-sm project-card">
+            {% if project.image %}
+              <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-img">
+            {% else %}
+              <img src="{% static 'image.jpg' %}" alt="No image" class="project-img">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              <h5 class="project-title">{{ project.title }}</h5>
+              <p class="project-description mb-3">{{ project.description|truncatechars:120 }}</p>
+              {% if project.url %}
+                <a href="{{ project.url }}" target="_blank" class="btn btn-sm btn-visit mt-auto">Visit Project</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info text-center mt-4">No projects found.</div>
+  {% endif %}
+</div>
+{% endblock %}

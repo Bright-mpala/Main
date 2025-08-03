@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block title %}Process Payment{% endblock %}
+
+{% block content %}
+  <div class="container text-center mt-5">
+    <h2>Thank you for your generosity!</h2>
+    <p>You are being redirected to PayPal to complete your donation.</p>
+    <p>If the redirection doesn't happen automatically, please click the button below.</p>
+
+    <div class="my-4">
+      {{ form.render }}
+    </div>
+
+    <p class="text-muted">Processing... Please wait.</p>
+  </div>
+
+  <script>
+    // Automatically submit the form to PayPal
+    window.onload = function() {
+      document.forms[0].submit();
+    };
+  </script>
+{% endblock %}

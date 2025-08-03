@@ -1,0 +1,107 @@
+{% extends "core/base.html" %}
+{%load static %}
+{% block title %}About{% endblock %}
+
+{% block content %}
+<style>
+  .about-section {
+    background: #f9fafb;
+    padding: 3rem 1rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .contact-section {
+    background: #ffffff;
+    padding: 3rem 1rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .profile-img {
+    max-width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #333;
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .btn-primary {
+    background-color: #fd7e14;
+    border-color: #fd7e14;
+  }
+
+  .btn-primary:hover {
+    background-color: #e3640c;
+    border-color: #e3640c;
+  }
+</style>
+
+<div class="container my-5">
+  <section class="about-section">
+    <div class="row align-items-center">
+      <!-- Text content -->
+      <div class="col-md-7 mb-4 mb-md-0">
+        <h2 class="section-title mb-4">Meet Jane Doe</h2>
+        <p class="lead">Jane Doe is a visionary businesswoman dedicated to empowering communities through sustainable development and leadership. With years of experience in entrepreneurship, she believes in creating opportunities, uplifting others, and fostering innovation.</p>
+
+        <h5 class="mt-4">💡 Mission</h5>
+        <p>To lead with purpose, mentor the next generation of entrepreneurs, and bring positive impact through socially conscious projects.</p>
+
+        <h5 class="mt-4">🌟 Core Values</h5>
+        <ul class="list-unstyled ps-3">
+          <li>✔ Integrity in every action</li>
+          <li>✔ Commitment to excellence</li>
+          <li>✔ Bold and creative innovation</li>
+          <li>✔ Collaboration and respect</li>
+        </ul>
+
+        <h5 class="mt-4">🔗 Connect</h5>
+        <p>
+          <a href="https://linkedin.com/in/janedoe" class="btn btn-outline-secondary btn-sm me-2" target="_blank">LinkedIn</a>
+          <a href="https://twitter.com/janedoe" class="btn btn-outline-secondary btn-sm me-2" target="_blank">Twitter</a>
+          <a href="mailto:jane@example.com" class="btn btn-outline-secondary btn-sm">Email</a>
+        </p>
+      </div>
+
+      <!-- Image -->
+      <div class="col-md-5 text-center">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=500&q=80" alt="Businesswoman" class="profile-img">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Me Section -->
+  <section class="contact-section mt-5">
+    <h2 class="section-title">Contact Me</h2>
+    <p class="mb-4">Have a question, idea, or want to collaborate? I'd love to hear from you. Fill out the form below or email me directly at <a href="mailto:jane@example.com">jane@example.com</a>.</p>
+
+    <form method="post" action="{% url 'contact' %}">
+      {% csrf_token %}
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label for="id_name" class="form-label">Your Name</label>
+          <input type="text" name="name" id="id_name" class="form-control" required>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label for="id_email" class="form-label">Email Address</label>
+          <input type="email" name="email" id="id_email" class="form-control" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="id_message" class="form-label">Message</label>
+        <textarea name="message" id="id_message" rows="5" class="form-control" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

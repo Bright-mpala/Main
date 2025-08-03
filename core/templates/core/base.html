@@ -1,0 +1,292 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{% block title %}Donate{% endblock %}</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}" />
+
+<style>
+  /* Navbar & general styles (same as before) */
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    padding-top: 60px; /* space for fixed header */
+  }
+
+  header {
+    background: linear-gradient(90deg, #295986, #3d5870);
+    color: white;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+    flex-wrap: wrap;
+  }
+
+  .logo {
+    font-weight: 900;
+    font-size: 1.75rem;
+    letter-spacing: 3px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .logo svg {
+    width: 32px;
+    height: 32px;
+    fill: white;
+  }
+
+  nav {
+    flex-grow: 1;
+    margin-left: 2rem;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  nav ul li a svg {
+    width: 18px;
+    height: 18px;
+    fill: white;
+  }
+
+  nav ul li a:hover {
+    color: #ffd1dc;
+  }
+
+  nav ul li a:hover svg {
+    fill: #ffd1dc;
+  }
+
+  .donate-btn-container {
+    margin-left: auto;
+  }
+
+  .donate-btn {
+    background: linear-gradient(90deg, #ff6fa3, #3da4ff);
+    border: none;
+    color: white;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+  }
+
+  .donate-btn:hover {
+    background: linear-gradient(90deg, #3d5870, #295986);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Hamburger button styles */
+  .menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: white;
+    cursor: pointer;
+    margin-left: auto;
+    user-select: none;
+  }
+
+  /* Footer styles */
+  footer {
+    background: linear-gradient(90deg, #1f1f1f, #2e2e2e);
+    color: #ccc;
+    padding: 3rem 1rem;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.4);
+    margin-top: 3rem;
+  }
+
+  .footer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .footer-section {
+    flex: 1 1 220px;
+    min-width: 180px;
+  }
+
+  .footer-section h4 {
+    background: linear-gradient(90deg, #3da4ff, #91ff6f);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+    font-size: 1.25rem;
+  }
+
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .footer-section ul li {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-section ul li a {
+    color: #f8e9e9;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer-section ul li a:hover {
+    color: #b26fff;
+  }
+
+  /* Responsive Styles */
+  @media (max-width: 768px) {
+    nav ul {
+      display: none;
+      flex-direction: column;
+      width: 100%;
+      background: linear-gradient(90deg, #295986, #3d5870);
+      position: absolute;
+      top: 60px; /* header height */
+      left: 0;
+      padding: 1rem 2rem;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      z-index: 9999;
+    }
+
+    nav ul.active {
+      display: flex;
+    }
+
+    nav ul li {
+      margin-bottom: 1rem;
+    }
+
+    .menu-toggle {
+      display: block;
+    }
+
+    .donate-btn-container {
+      margin-left: 0;
+      margin-top: 1rem;
+    }
+
+    nav {
+      margin-left: 0;
+      flex-grow: 1;
+    }
+
+    .footer-container {
+      flex-direction: column;
+      gap: 3rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" aria-label="Personal Logo">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+    </svg>
+    Jane Doe
+  </div>
+
+  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+
+  <nav>
+    <ul>
+      <li><a href="{% url 'index' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a></li>
+      <li><a href="{% url 'projects' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H2v16h20V6H12l-2-2z"/></svg>Projects</a></li>
+      <li><a href="{% url 'events' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 11h5v5H7zm7 0h3v3h-3zM19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.11-.9-2-2-2z"/></svg>Events</a></li>
+      <li><a href="{% url 'about' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>About</a></li>
+      <li><a href="{% url 'blog' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Blogs</a></li>
+      <li>
+      <div class="donate-btn-container">
+  <a href="{% url 'donate' %}" class="donate-btn">Donate</a>
+</div>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+  {% block content %}
+  <!-- Page content goes here -->
+  {% endblock %}
+</main>
+
+<footer>
+  <div class="footer-container">
+    <div class="footer-section">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:jane@example.com">Email: jane@example.com</a></li>
+        <li><a href="#">LinkedIn</a></li>
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        <li><a href="{% url 'donate' %}">Donate</a></li>
+        <li><a href="{% url 'contact' %}">Contact</a></li>
+      <li><a href="{% url 'blog' %}">Blog</a></li>
+<li><a href="{% url 'projects' %}">Projects</a></li>
+           <lia><a href="{% url 'about' %}">About</a></li>
+
+      </ul>
+    </div>
+    <div class="footer-section">
+      <h4>Follow Me</h4>
+      <ul>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">GitHub</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navUl = document.querySelector('nav ul');
+
+  menuToggle.addEventListener('click', () => {
+    navUl.classList.toggle('active');
+    const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+    menuToggle.setAttribute('aria-expanded', !expanded);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+✅ To-Do List (MVP Development)
+📌 Phase 1: Planning
+ Define core user stories
+
+ Choose tech stack (e.g., Next.js + Firebase, Laravel, Django)
+
+ Check domain availability
+
+ Draft wireframes (Figma)
+
+🧱 Phase 2: Backend Setup
+ User auth system
+
+ Database models: Users, Projects, Donations
+
+ API endpoints for CRUD operations
+
+🖼 Phase 3: Frontend
+ Homepage with featured projects
+
+ Project detail page
+
+ Create/edit project form
+
+ Donation checkout flow
+
+💳 Phase 4: Payment Integration
+ Set up Stripe or PayPal API
+
+ Donation confirmation & receipts
+
+📬 Phase 5: Notifications
+ Email system (SendGrid, Mailgun)
+
+ Alerts for donations & updates
+
+🚀 Phase 6: Testing & Launch
+ QA testing (desktop & mobile)
+
+ Analytics (Google Analytics, Mixpanel)
+
+ Soft launch with
