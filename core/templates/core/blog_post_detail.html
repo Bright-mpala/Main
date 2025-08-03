@@ -1,7 +1,8 @@
 {% extends "core/base.html" %}
 {% load static %}
 {% block title %}{{ blog_post.title }} | Blog{% endblock %}
-
+<link rel="icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
+<link rel="shortcut icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
 {% block content %}
 <h2 class="mt-5 text-center fw-bold display-5">{{ blog_post.title }}</h2>
 <div class="container my-5">

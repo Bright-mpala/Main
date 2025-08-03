@@ -130,7 +130,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static', ]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 
 # Default primary key field type
@@ -163,6 +163,7 @@ JAZZMIN_SETTINGS = {
     "site_title": "My Project Admin",
     "site_header": "My Project Administration",
     "site_brand": "My Project",
+    "site_logo": "images/favicon-32x32.png",
     "welcome_sign": "Welcome to My Project Admin",
     "copyright": "Project © 2025",
     "icons": {
