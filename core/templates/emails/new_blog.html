@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>New Blog Post</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #eef1f5;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .header {
+      background-color: #6c63ff;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+    .content {
+      padding: 25px;
+      color: #333;
+    }
+    .content h2 {
+      color: #6c63ff;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      color: #555;
+      text-align: center;
+      font-size: 13px;
+      padding: 15px;
+    }
+    a.button {
+      background-color: #6c63ff;
+      color: #fff;
+      padding: 12px 20px;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 15px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <h1>New Blog Published 📝</h1>
+    </div>
+    <div class="content">
+      <h2>{{ post.title }}</h2>
+      <p><strong>Author:</strong> {{ post.author }}</p>
+      <p><strong>Date:</strong> {{ post.published_date }}</p>
+      <p><strong>Excerpt:</strong></p>
+      <p>{{ post.content|truncatewords:40 }}</p>
+
+      <a href="{{ blog_url }}" class="button">Read Full Blog</a>
+    </div>
+    <div class="footer">
+      &copy; {{ current_year }} Pravic Blogs. Stay inspired.
+    </div>
+  </div>
+</body>
+</html>

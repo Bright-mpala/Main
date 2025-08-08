@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Donation Verified</title>
+</head>
+<body style="font-family: Arial, sans-serif; background: #f5f5f5; padding: 20px;">
+    <div style="background: #ffffff; padding: 20px; border-radius: 8px;">
+        <h2 style="color: #28a745;">🎉 Thank You, {{ name }}!</h2>
+        <p>Your donation of <strong>${{ amount }}</strong> has been successfully verified.</p>
+        {% if project %}
+        <p>You supported the project: <strong>{{ project }}</strong>.</p>
+        {% else %}
+        <p>You made a general donation without specifying a project. Thank you!</p>
+        {% endif %}
+        <p>We truly appreciate your generosity and support.</p>
+        <p>– The Team</p>
+    </div>
+</body>
+</html>

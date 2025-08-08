@@ -1,0 +1,157 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    line-height: 1.7;
+    background-color: #fefefe;
+    scroll-behavior: smooth;
+  }
+
+  .btn-scroll {
+    margin-top: 35px;
+    padding: 14px 35px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    animation: fadeIn 2s ease;
+  }
+
+  .section {
+    padding: 80px 20px;
+  }
+
+  .service-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+    transition: all 0.3s ease;
+    animation: fadeUp 1s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    top: 0;
+    left: 0;
+    background: linear-gradient(90deg, #ff9a8b, #f9d423);
+  }
+
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+  }
+
+  .list-group-item {
+    font-size: 1.1rem;
+    background: transparent;
+    border: none;
+    padding-left: 0;
+    animation: fadeUp 1s ease;
+  }
+
+  footer {
+    background-color: #333;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 2rem;
+    }
+
+    .service-card {
+      padding: 20px;
+    }
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  @keyframes slideDown {
+    from {transform: translateY(-50px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+  }
+
+  @keyframes slideUp {
+    from {transform: translateY(50px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+  }
+
+  @keyframes fadeUp {
+    from {transform: translateY(20px); opacity: 0;}
+    to {transform: translateY(0); opacity: 1;}
+  }
+</style>
+
+<header class = "text-center">
+  <h1 class = "text-center">Welcome to Counselling</h1>
+  <p class="lead text-center">Your journey to healing starts here. We listen. We care. We support.</p>
+  <a href="#services" class="btn btn-warning btn-lg btn-scroll text-center">Explore Services</a>
+</header>
+
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="text-center mb-5">Our Counselling Services</h2>
+    <div class="row">
+      <div class="col-md-6 service-card">
+        <h4>Marriage Counselling</h4>
+        <p>Helping couples strengthen their relationship, resolve conflicts, and build lasting love and trust.</p>
+      </div>
+      <div class="col-md-6 service-card">
+        <h4>Personal Therapy</h4>
+        <p>One-on-one guidance for personal growth, overcoming anxiety, depression, trauma, and other challenges.</p>
+      </div>
+      <div class="col-md-6 service-card">
+        <h4>Youth & Teen Counselling</h4>
+        <p>Empowering young people with support for emotional, academic, and social challenges in a safe space.</p>
+      </div>
+      <div class="col-md-6 service-card">
+        <h4>Family Therapy</h4>
+        <p>Strengthen family bonds and communication through tailored sessions for the whole family.</p>
+      </div>
+      <div class="col-md-6 service-card">
+        <h4>Grief & Loss Support</h4>
+        <p>Helping you navigate loss and find hope after death, divorce, or other major life changes.</p>
+      </div>
+      <div class="col-md-6 service-card">
+        <h4>Spiritual & Faith-based Guidance</h4>
+        <p>Explore healing from a faith perspective with caring spiritual counsellors.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section bg-light">
+  <div class="container">
+    <h2 class="text-center mb-4">Why Choose Us?</h2>
+    <ul class="list-group list-group-flush text-center">
+      <li class="list-group-item">✔ Certified and compassionate counsellors</li>
+      <li class="list-group-item">✔ Confidential and judgment-free sessions</li>
+      <li class="list-group-item">✔ Online and in-person appointments</li>
+      <li class="list-group-item">✔ Affordable and flexible pricing</li>
+      <li class="list-group-item">✔ Proven results and positive feedback</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section text-center">
+  <div class="container">
+    <h2>Book an Appointment</h2>
+    <p class="mb-4">Take the first step toward healing. Our doors (and hearts) are open to you.</p>
+    <a href="{% url 'counseling:book' %}" class="btn btn-success btn-lg">Book Now</a>
+  </div>
+</section>
+{% endblock %}

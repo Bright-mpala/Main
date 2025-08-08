@@ -1,29 +1,191 @@
-/* Global styles */
-* {
-  box-sizing: border-box;
-  transition: all 0.3s ease-in-out;
-}
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #fff;
-  line-height: 1.6;
-  color: #444;
-  padding-top: 5rem; /* space for fixed header */
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a:hover {
-  text-decoration: underline;
-  color: #3da4ff;
-}
-
+ /* Navbar Styles */
+    .navbar-container {
+      background-color: #fff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1030;
+    }
+    
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: #2c3e50;
+    }
+    
+    .navbar-brand svg {
+      width: 32px;
+      height: 32px;
+      margin-right: 10px;
+      fill: #3498db;
+    }
+    
+    .nav-link {
+      color: #2c3e50;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      margin: 0 0.25rem;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-link:hover, .nav-link:focus {
+      color: #3498db;
+      background-color: rgba(52, 152, 219, 0.1);
+    }
+    
+    .nav-link.active {
+      color: #3498db;
+      font-weight: 600;
+    }
+    
+    .user-initial {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #3498db;
+      color: white;
+      font-weight: 600;
+    }
+    
+    .donate-btn {
+      background-color: #e74c3c;
+      color: white;
+      padding: 0.5rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      white-space: nowrap;
+    }
+    
+    .donate-btn:hover {
+      background-color: #c0392b;
+      color: white;
+      text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dropdown-menu {
+      border: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 0.5rem 0;
+    }
+    
+    .dropdown-item {
+      padding: 0.5rem 1.5rem;
+      color: #2c3e50;
+    }
+    
+    .dropdown-item:hover {
+      background-color: #f8f9fa;
+      color: #3498db;
+    }
+    
+    .navbar-toggler {
+      border: none;
+      padding: 0.5rem;
+    }
+    
+    .navbar-toggler:focus {
+      box-shadow: none;
+      outline: none;
+    }
+    
+    .navbar-toggler-icon {
+      background-image: none;
+      width: 24px;
+      height: 24px;
+      position: relative;
+    }
+    
+    .navbar-toggler-icon::before,
+    .navbar-toggler-icon::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background-color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+    
+    .navbar-toggler-icon::before {
+      top: 6px;
+    }
+    
+    .navbar-toggler-icon::after {
+      bottom: 6px;
+    }
+    
+    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+      transform: rotate(45deg);
+      top: 11px;
+    }
+    
+    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+      transform: rotate(-45deg);
+      bottom: 11px;
+    }
+    
+    /* Mobile menu styles */
+    @media (max-width: 991.98px) {
+      .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        bottom: 0;
+        width: 80%;
+        max-width: 300px;
+        padding: 2rem 1rem;
+        background-color: white;
+        z-index: 1050;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+      }
+      
+      .navbar-collapse.show {
+        left: 0;
+      }
+      
+      .navbar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+      }
+      
+      .navbar-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      
+      .nav-item {
+        margin: 0.5rem 0;
+      }
+      
+      .nav-link {
+        padding: 0.75rem 1rem;
+      }
+      
+      .donate-btn-container {
+        margin-left: auto;
+        padding: 1rem;
+      }
+    }
 /* Gradient text helper */
 .gradient-text {
   background: linear-gradient(90deg, #ff6fa3, #3da4ff);
@@ -49,121 +211,7 @@ p {
   color: #000000;
 }
 
-section p {
-  color: #000000;
-}
 
-/* ================== Navbar styles ================== */
-
-header {
-  background: linear-gradient(90deg, #295986, #3d5870);
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
-  flex-wrap: wrap;
-}
-
-.header-container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  flex-wrap: wrap;
-}
-
-.navbar-flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-grow: 1;
-  flex-wrap: wrap;
-}
-
-.logo {
-  font-size: 1.75rem;
-  font-weight: 900;
-  letter-spacing: 3px;
-  user-select: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.logo svg {
-  width: 32px;
-  height: 32px;
-  fill: white;
-}
-
-nav {
-  flex-grow: 1;
-  margin-left: 2rem;
-}
-
-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-  padding: 0;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-nav ul li {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-nav ul li a {
-  color: white;
-  font-weight: 600;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-nav ul li a:hover {
-  color: #ffd1dc;
-}
-
-nav ul li svg {
-  width: 18px;
-  height: 18px;
-  fill: white;
-}
-
-nav ul li a:hover svg {
-  fill: #ffd1dc;
-}
-
-/* Donate Button */
-.donate-btn {
-  background: linear-gradient(90deg, #ff6fa3, #3da4ff);
-  border: none;
-  color: white;
-  padding: 0.5rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 30px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  white-space: nowrap;
-}
-
-.donate-btn-container {
-  margin-right: auto;
-}
 
 /* ================== Hero Section ================== */
 .hero {
@@ -199,11 +247,6 @@ nav ul li a:hover svg {
   white-space: nowrap;
 }
 
-.donate-btn:hover,
-.hero button:hover {
-  background: linear-gradient(90deg, #3d5870, #295986);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-}
 
 /* ================== Projects Section ================== */
 .projects {
@@ -260,6 +303,40 @@ nav ul li a:hover svg {
 .project-content p {
   color: #0c0303;
 }
+#services .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  #services .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  #services .card-img-top {
+    object-fit: cover;
+    height: 220px;
+  }
+
+  #services .card-body {
+    background-color: #f8f9fa;
+    padding: 20px;
+  }
+
+  #services .card-title {
+    font-size: 1.25rem;
+    color: #0d6efd;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  #services .card-text {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
 
 /* ================== Events Section ================== */
 .events {
@@ -325,6 +402,7 @@ nav ul li a:hover svg {
   border-radius: 0.3rem;
 }
 
+
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   width: 35px;
@@ -386,101 +464,53 @@ footer {
 }
 
 /* ================== WhatsApp Floating Button ================== */
-.whatsapp-float {
-  position: fixed;
-  width: 60px;
-  height: 60px;
-  bottom: 40px;
-  right: 40px;
-  background-color: #25d366;
-  color: white;
-  border-radius: 50%;
-  text-align: center;
-  font-size: 30px;
-  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-  z-index: 1000;
-  transition: background-color 0.3s ease;
-}
 
-.whatsapp-float:hover {
-  background-color: #128c3f;
-  color: white;
-  text-decoration: none;
-}
-
-/* ================== Responsive ================== */
-
-/* Navbar and general layout adjustments */
-@media (max-width: 900px) {
-  nav ul {
-    gap: 1rem;
-  }
-  nav {
-    margin-left: 1rem;
-  }
-}
-
-@media (max-width: 768px) {
-  nav ul {
-    flex-direction: column;
-    display: none;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-  nav ul.active {
-    display: flex;
-  }
-  .menu-toggle {
-    display: block;
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-size: 1.75rem;
-    color: white;
-  }
-  .donate-btn-container {
-    margin-top: 0.5rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .hero h1 {
-    font-size: 2.2rem;
-  }
-  .hero p {
-    font-size: 1rem;
-  }
-  nav ul {
-    gap: 0.7rem;
-  }
-  nav ul li a {
-    font-size: 0.9rem;
-  }
-  .project-cards,
-  .event-cards {
-    grid-template-columns: 1fr;
-  }
-  .footer-container {
-    flex-direction: column;
-    gap: 3rem;
-  }
-  nav {
-    margin-left: 0;
-    width: 100%;
-  }
-  .navbar-flex {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .donate-btn-container {
-    margin-left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-  }
-}
 
 /* Hide menu toggle on desktop */
 .menu-toggle {
   display: none;
 }
+.comment-item {
+  margin-bottom: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+}
+.owner-comment {
+  background-color: #ffe6e6;
+}
+.user-comment {
+  background-color: #e6f7ff;
+}
+.other-comment {
+  background-color: #f4f4f4;
+}
+ .user-initial {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #3da4ff;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-right: 0.3rem;
+      user-select: none;
+    }
+
+    #mobile-menu-overlay {
+      display: none;
+      position: fixed;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 999;
+    }
+
+    #mobile-menu-overlay.active {
+      display: block;
+    }

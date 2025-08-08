@@ -2,255 +2,117 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{% block title %}Donate{% endblock %}</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Donate{% endblock %}</title>
+ <link rel="apple-touch-icon" sizes="180x180" href="{% static 'core/images/favicon/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'core/images/favicon/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'core/images/favicon/favicon-16x16.png' %}">
+  <link rel="manifest" href="{% static 'core/images/favicon/site.webmanifest' %}">
+  <link rel="mask-icon" href="{% static 'core/images/favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+  <link rel="shortcut icon" href="{% static 'core/images/favicon/favicon.ico' %}">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="{% static 'core/images/favicon/browserconfig.xml' %}">
+  <meta name="theme-color" content="#ffffff">
 
-<link rel="icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
-<link rel="shortcut icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+   <link rel="stylesheet" href="{% static 'core/css/style.css' %}" />
+ 
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link rel="stylesheet" href="{% static 'core/css/style.css' %}" />
 
-<style>
-  /* Navbar & general styles (same as before) */
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    padding-top: 60px; /* space for fixed header */
-  }
-
-  header {
-    background: linear-gradient(90deg, #295986, #3d5870);
-    color: white;
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    display: flex;
-    align-items: center;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-    z-index: 1000;
-    flex-wrap: wrap;
-  }
-
-  .logo {
-    font-weight: 900;
-    font-size: 1.75rem;
-    letter-spacing: 3px;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .logo svg {
-    width: 32px;
-    height: 32px;
-    fill: white;
-  }
-
-  nav {
-    flex-grow: 1;
-    margin-left: 2rem;
-  }
-
-  nav ul {
-    list-style: none;
-    display: flex;
-    gap: 1.5rem;
-    margin: 0;
-    padding: 0;
-    align-items: center;
-  }
-
-  nav ul li a {
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  nav ul li a svg {
-    width: 18px;
-    height: 18px;
-    fill: white;
-  }
-
-  nav ul li a:hover {
-    color: #ffd1dc;
-  }
-
-  nav ul li a:hover svg {
-    fill: #ffd1dc;
-  }
-
-  .donate-btn-container {
-    margin-left: auto;
-  }
-
-  .donate-btn {
-    background: linear-gradient(90deg, #ff6fa3, #3da4ff);
-    border: none;
-    color: white;
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 30px;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    white-space: nowrap;
-  }
-
-  .donate-btn:hover {
-    background: linear-gradient(90deg, #3d5870, #295986);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-  }
-
-  /* Hamburger button styles */
-  .menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 2.5rem;
-    color: white;
-    cursor: pointer;
-    margin-left: auto;
-    user-select: none;
-  }
-
-  /* Footer styles */
-  footer {
-    background: linear-gradient(90deg, #1f1f1f, #2e2e2e);
-    color: #ccc;
-    padding: 3rem 1rem;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.4);
-    margin-top: 3rem;
-  }
-
-  .footer-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .footer-section {
-    flex: 1 1 220px;
-    min-width: 180px;
-  }
-
-  .footer-section h4 {
-    background: linear-gradient(90deg, #3da4ff, #91ff6f);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 700;
-    font-size: 1.25rem;
-  }
-
-  .footer-section ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  .footer-section ul li {
-    margin-bottom: 0.75rem;
-  }
-
-  .footer-section ul li a {
-    color: #f8e9e9;
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .footer-section ul li a:hover {
-    color: #b26fff;
-  }
-
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    nav ul {
-      display: none;
-      flex-direction: column;
-      width: 100%;
-      background: linear-gradient(90deg, #295986, #3d5870);
-      position: absolute;
-      top: 60px; /* header height */
-      left: 0;
-      padding: 1rem 2rem;
-      border-radius: 0 0 10px 10px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      z-index: 9999;
-    }
-
-    nav ul.active {
-      display: flex;
-    }
-
-    nav ul li {
-      margin-bottom: 1rem;
-    }
-
-    .menu-toggle {
-      display: block;
-    }
-
-    .donate-btn-container {
-      margin-left: 0;
-      margin-top: 1rem;
-    }
-
-    nav {
-      margin-left: 0;
-      flex-grow: 1;
-    }
-
-    .footer-container {
-      flex-direction: column;
-      gap: 3rem;
-    }
-  }
-</style>
 </head>
 <body>
+  <a href="#main-content" class="visually-hidden visually-hidden-focusable">Skip to main content</a>
 
-<header>
-  <div class="logo" aria-label="Personal Logo">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-      <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-    </svg>
-    Jane Doe
+  {% if notifications %}
+  <div class="bg-warning text-dark p-2 text-center small" style="position: relative; z-index: 9999;">
+    {% for notif in notifications %}
+      <div id="notif-{{ notif.id }}" class="d-flex justify-content-between align-items-center px-2">
+        <span>{{ notif.message }}</span>
+        <button class="btn-close btn-close-white" aria-label="Close" onclick="markAsRead('{{ notif.id }}')"></button>
+      </div>
+    {% endfor %}
   </div>
+  {% endif %}
 
-  <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
+  <header class="navbar-container">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg">
+        <a class="navbar-brand" href="{% url 'index' %}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          Dr Shoko
+        </a>
+        
+        <button class="navbar-toggler" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navbarContent">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="navbar-backdrop"></div> <!-- Moved here, outside collapse -->
+<div class="navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if user.is_authenticated and approved_projects_count > 0 %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'project_workspace_list' %}">Project Workspace</a>
+              </li>
+            {% endif %}
+            <li class="nav-item">
+              <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if 'projects' in request.path %}active{% endif %}" href="{% url 'projects' %}">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if 'events' in request.path %}active{% endif %}" href="{% url 'events' %}">Events</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if 'about' in request.path %}active{% endif %}" href="{% url 'about' %}">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if 'blog' in request.path %}active{% endif %}" href="{% url 'blog' %}">Blogs</a>
+            </li>
+            <li class="nav-item">
+             <a class="nav-link {% if request.resolver_match.namespace == 'counseling' %}active{% endif %}"href="{% url 'counseling:counselling_home' %}"> Counselling sessions</a>
 
-  <nav>
-    <ul>
-      <li><a href="{% url 'index' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</a></li>
-      <li><a href="{% url 'projects' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H2v16h20V6H12l-2-2z"/></svg>Projects</a></li>
-      <li><a href="{% url 'events' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 11h5v5H7zm7 0h3v3h-3zM19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.11-.9-2-2-2z"/></svg>Events</a></li>
-      <li><a href="{% url 'about' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>About</a></li>
-      <li><a href="{% url 'blog' %}"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>Blogs</a></li>
-      <li>
-      <div class="donate-btn-container">
-  <a href="{% url 'donate' %}" class="donate-btn">Donate</a>
-</div>
-      </li>
-    </ul>
-  </nav>
-</header>
+          </ul>
+          
+          <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="userDropdown" role="button"
+                   data-bs-toggle="dropdown" aria-expanded="false">
+                  <span class="user-initial">{{ user.first_name|default:user.username|slice:":1"|upper }}{{ user.last_name|default:user.username|slice:":1"|upper }}</span>
+                  <span class="d-none d-lg-inline">{{ user.first_name|default:user.username }}</span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                  <li><a class="dropdown-item" href="{% url 'account_logout' %}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'account_signup' %}">Sign Up</a>
+              </li>
+            {% endif %}
+            <li class="nav-item ms-lg-2">
+              <a href="{% url 'donate' %}" class="donate-btn nav-link">Donate</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </header>
 
-<main>
-  {% block content %}
-  <!-- Page content goes here -->
-  {% endblock %}
-</main>
+  <main id="main-content">
+    {% block content %}
+    {% endblock %}
+  </main>
 
-<footer>
-  <div class="footer-container">
+  <footer><div class="footer-container">
     <div class="footer-section">
       <h4>Contact</h4>
       <ul>
@@ -264,10 +126,9 @@
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="{% url 'donate' %}">Donate</a></li>
         <li><a href="{% url 'contact' %}">Contact</a></li>
-      <li><a href="{% url 'blog' %}">Blog</a></li>
-<li><a href="{% url 'projects' %}">Projects</a></li>
-           <lia><a href="{% url 'about' %}">About</a></li>
-
+        <li><a href="{% url 'blog' %}">Blog</a></li>
+        <li><a href="{% url 'projects' %}">Projects</a></li>
+        <li><a href="{% url 'about' %}">About</a></li>
       </ul>
     </div>
     <div class="footer-section">
@@ -278,18 +139,62 @@
       </ul>
     </div>
   </div>
-</footer>
+  </footer>
 
-<script>
-  const menuToggle = document.querySelector('.menu-toggle');
-  const navUl = document.querySelector('nav ul');
-
-  menuToggle.addEventListener('click', () => {
-    navUl.classList.toggle('active');
-    const expanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
-    menuToggle.setAttribute('aria-expanded', !expanded);
-  });
-</script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      // Mobile menu toggle
+      const navbarToggler = document.querySelector('.navbar-toggler');
+      const navbarCollapse = document.querySelector('.navbar-collapse');
+      const navbarBackdrop = document.querySelector('.navbar-backdrop');
+      
+      navbarToggler.addEventListener('click', function() {
+        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+        this.setAttribute('aria-expanded', !isExpanded);
+        navbarCollapse.classList.toggle('show');
+        navbarBackdrop.classList.toggle('show');
+        document.body.style.overflow = isExpanded ? '' : 'hidden';
+      });
+      
+      navbarBackdrop.addEventListener('click', function() {
+        navbarToggler.setAttribute('aria-expanded', 'false');
+        navbarCollapse.classList.remove('show');
+        this.classList.remove('show');
+        document.body.style.overflow = '';
+      });
+      
+      // Close mobile menu when clicking on a nav link
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 991.98) {
+            navbarToggler.setAttribute('aria-expanded', 'false');
+            navbarCollapse.classList.remove('show');
+            navbarBackdrop.classList.remove('show');
+            document.body.style.overflow = '';
+          }
+        });
+      });
+      
+      // Mark notification as read
+      window.markAsRead = function(notificationId) {
+        fetch("{% url 'mark_notification_read' %}", {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `id=${notificationId}`,
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            const notifEl = document.getElementById(`notif-${notificationId}`);
+            if (notifEl) notifEl.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

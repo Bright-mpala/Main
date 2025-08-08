@@ -1,23 +1,56 @@
 {% extends "core/base.html" %}
+{% load static %}
 {% block title %}Terms and Conditions{% endblock %}
-<link rel="icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
-<link rel="shortcut icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
+
 {% block content %}
-<section class="container mt-5 mb-5">
-    <h2 class="mb-4">Terms and Conditions for Donations</h2>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
 
-    <p>By making a donation through this website, you agree to the following terms and conditions:</p>
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h1 class="card-title text-center text-primary mb-4">Terms and Conditions</h1>
 
-    <ul>
-        <li><strong>Voluntary Donations:</strong> All donations made through this website are voluntary and non-refundable unless otherwise stated.</li>
-        <li><strong>Use of Funds:</strong> Donations will be used strictly for the purposes outlined on this website, including community development, charity, and project support.</li>
-        <li><strong>Payment Processing:</strong> All transactions are securely processed using third-party payment processors such as PayPal, Stripe, EcoCash, or bank transfer.</li>
-        <li><strong>Information Accuracy:</strong> You agree to provide accurate and complete information when making a donation.</li>
-        <li><strong>Privacy:</strong> We respect your privacy. Your personal and financial information will not be shared with third parties except for processing payments or as required by law.</li>
-        <li><strong>Confirmation:</strong> After donation, you will receive a confirmation message or email. Please keep this for your records.</li>
-        <li><strong>Modifications:</strong> We reserve the right to update or change these terms at any time without notice. It is your responsibility to check periodically for changes.</li>
-    </ul>
+      
 
-    <p>If you have any questions regarding these terms, please <a href="/">contact us</a>.</p>
-</section>
+          <p>
+            Thank you for your generous donation. By proceeding with this transaction, you agree to the following terms and conditions.
+          </p>
+
+          <h5 class="mt-4">1. Donation Policy</h5>
+          <p>
+            All donations are voluntary and non-refundable unless otherwise stated by law. We do not offer any goods or services in exchange for your donation.
+          </p>
+
+          <h5 class="mt-4">2. Use of Funds</h5>
+          <p>
+            Your contribution will be used in accordance with our mission and values. We reserve the right to allocate donations as needed to fulfill our organizational objectives.
+          </p>
+
+          <h5 class="mt-4">3. Data Privacy</h5>
+          <p>
+            Your personal data will be securely processed and stored. We do not share donor information with third parties without consent, except as required by law.
+          </p>
+
+          <h5 class="mt-4">4. Legal Compliance</h5>
+          <p>
+            You certify that your donation complies with all applicable local, national, and international laws.
+          </p>
+
+          <h5 class="mt-4">5. Contact Information</h5>
+          <p>
+            For questions or concerns about your donation, please contact us at <a href="mailto:support@example.com">support@example.com</a>.
+          </p>
+
+          <div class="text-center mt-5">
+            <a href="{% url 'donate' %}" class="btn btn-primary px-4">
+              I Agree and Continue
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
 {% endblock %}

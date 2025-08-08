@@ -1,59 +1,59 @@
-{% extends "core/base.html" %}
-{% load static %}
+{% extends 'core/base.html' %}
 
-{% block title %}Events{% endblock %}
-<link rel="icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
-<link rel="shortcut icon" href="{% static 'core/images/favicon.ico' %}" type="image/x-icon">
 {% block content %}
-<br/>
-<div class="events">
-  <h2>Upcoming Events</h2>
+  <h1>My Events</h1>
 
-  {% if page_obj.object_list %}
-    <div class="event-cards">
-      {% for event in page_obj.object_list %}
-      <div class="event-card">
-        <div class="event-date">{{ event.event_date|date:"F j, Y" }}</div>
-        <h3 class="event-title">{{ event.title }}</h3>
-        <p class="event-desc">{{ event.description }}</p>
-      </div>
-      {% endfor %}
-    </div>
+  <h2>Upcoming & Ongoing Events</h2>
+  {% if upcoming_events %}
+    <ul>
+      {% for event in upcoming_events %}
+        <li>
+          <h3>{{ event.title }}</h3>
+          <p><strong>Date:</strong> {{ event.event_date|date:"F j, Y" }}</p>
+          <p><strong>Type:</strong> {{ event.get_event_type_display }} | <strong>Category:</strong> {{ event.get_category_display }}</p>
+          <p><strong>Location:</strong> {{ event.location|default:"N/A" }}</p>
+          <p><strong>Days until event:</strong> {{ event.days_until }}</p>
 
-    <nav aria-label="Page navigation">
-      <ul class="pagination justify-content-center mt-4">
-        {% if page_obj.has_previous %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-              &laquo; Previous
-            </a>
-          </li>
-        {% else %}
-          <li class="page-item disabled"><span class="page-link">&laquo; Previous</span></li>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-          {% if page_obj.number == num %}
-            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
-          {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% if event.event_image %}
+            <img src="{{ event.event_image.url }}" alt="{{ event.title }}" style="max-width:300px; height:auto;">
           {% endif %}
-        {% endfor %}
 
-        {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-              Next &raquo;
-            </a>
-          </li>
-        {% else %}
-          <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
-        {% endif %}
-      </ul>
-    </nav>
+          {% if event.url %}
+            <p><strong>Event Link:</strong> <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer">{{ event.url }}</a></p>
+          {% endif %}
 
+          <p>{{ event.description|linebreaks }}</p>
+        </li>
+      {% endfor %}
+    </ul>
   {% else %}
-    <p>No upcoming events found.</p>
+    <p>No upcoming events.</p>
   {% endif %}
-</div>
+
+  <h2 class ="text-center">Past Events</h2>
+  {% if past_events %}
+    <ul>
+      {% for event in past_events %}
+        <li>
+          <h3>{{ event.title }}</h3>
+          <p><strong>Date:</strong> {{ event.event_date|date:"F j, Y" }}</p>
+          <p><strong>Type:</strong> {{ event.get_event_type_display }} | <strong>Category:</strong> {{ event.get_category_display }}</p>
+          <p><strong>Location:</strong> {{ event.location|default:"N/A" }}</p>
+
+          {% if event.event_image %}
+            <img src="{{ event.event_image.url }}" alt="{{ event.title }}" style="max-width:300px; height:auto;">
+          {% endif %}
+
+          {% if event.url %}
+            <p><strong>Event Link:</strong> <a href="{{ event.url }}" target="_blank" rel="noopener noreferrer">{{ event.url }}</a></p>
+          {% endif %}
+
+          <p>{{ event.description|linebreaks }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p claass = "fw bold fs-1">No past events.</p>
+  {% endif %}
+
 {% endblock %}

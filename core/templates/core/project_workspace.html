@@ -1,0 +1,132 @@
+
+{%extends 'core/base.html'%}
+{% load static %}
+{% block title %}Workspace - {{ project.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h1 class="mb-4 text-primary">Workspace: {{ project.title }}</h1>
+
+  <div class="row g-4">
+
+    <!-- Tasks Column -->
+    <div class="col-md-4">
+      <h4 class="mb-3">Your Tasks</h4>
+      {% if user_tasks %}
+      <ul class="list-group">
+        {% for task in user_tasks %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ task.title }}</strong><br>
+            <small class="text-muted">Due: {{ task.due_date|default:"No due date" }}</small><br>
+            {% if task.completed %}
+            <span class="badge bg-success">Completed</span>
+            {% else %}
+            <span class="badge bg-warning text-dark">Pending</span>
+            {% endif %}
+          </div>
+          <div>
+            {% if not task.completed %}
+            <button class="btn btn-sm btn-outline-success btn-complete-task" data-task-id="{{ task.id }}" title="Mark as Done">
+              <i class="bi bi-check2-circle"></i> Done
+            </button>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="text-muted">No tasks assigned to you yet.</p>
+      {% endif %}
+    </div>
+
+    <!-- Notifications Column -->
+    <div class="col-md-4">
+      <h4 class="mb-3">Notifications</h4>
+      <ul class="list-group" id="notification-list" style="max-height: 400px; overflow-y: auto;">
+        {% for note in notifications %}
+        <li class="list-group-item {% if not note.read %}fw-bold bg-light{% endif %}">
+          {{ note.message }}<br>
+          <small class="text-muted">{{ note.created_at|timesince }} ago</small>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-muted">No notifications.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- Chat Column -->
+    <div class="col-md-4 d-flex flex-column">
+      <h4 class="mb-3">Project Chat</h4>
+      <div id="chat-box" 
+           class="border rounded flex-grow-1 p-3 mb-3 bg-light" 
+           style="overflow-y: auto; height: 400px; scroll-behavior: smooth;">
+        {% for msg in chat_messages %}
+        <div class="mb-2">
+          <span class="badge bg-primary">{{ msg.user.username }}</span>
+          <span class="ms-2">{{ msg.message|linebreaksbr }}</span><br>
+          <small class="text-muted">{{ msg.created_at|date:"H:i" }}</small>
+        </div>
+        {% endfor %}
+      </div>
+
+      <form id="chat-form" class="d-flex" method="post" autocomplete="off">
+        {% csrf_token %}
+        <input type="text" id="chat-message" name="message" class="form-control me-2" placeholder="Type your message..." required>
+        <button class="btn btn-primary" type="submit" title="Send message">
+          <i class="bi bi-send-fill"></i> Send
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bootstrap Icons CDN for icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+
+  const projectId = "{{ project.id }}";
+  const chatSocket = new WebSocket(
+    'ws://' + window.location.host +
+    '/ws/workspace/' + projectId + '/'
+  );
+
+  chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    const chatBox = document.getElementById('chat-box');
+    chatBox.innerHTML += `<div><strong>${data.username}</strong>: ${data.message}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  };
+
+  chatSocket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+  };
+
+  document.getElementById('chat-form').onsubmit = function(e) {
+    e.preventDefault();
+    const input = document.getElementById('chat-message');
+    const message = input.value.trim();
+    if (message === '') return;
+    chatSocket.send(JSON.stringify({'message': message}));
+    input.value = '';
+  };
+</script>
+
+
+<style>
+  /* Scrollbar styling for notifications and chat */
+  #notification-list::-webkit-scrollbar,
+  #chat-box::-webkit-scrollbar {
+    width: 8px;
+  }
+  #notification-list::-webkit-scrollbar-thumb,
+  #chat-box::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.15);
+    border-radius: 4px;
+  }
+</style>
+
+{% endblock %}

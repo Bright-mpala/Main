@@ -1,0 +1,48 @@
+
+{% extends "core/base.html" %}
+{% load static %}
+{% block title %}Home | Dr Shoko{% endblock %}
+{% block content %}
+
+<div class="carousel slide carousel-fade" data-bs-ride="carousel" id="mainCarousel">
+<div class="carousel-inner">
+
+    {% if blogs %}
+    <div class="carousel-item active">
+<img alt="Latest Blog" class="d-block w-100" src="{{ blogs.0.image.url }}" style="max-height:500px; object-fit:cover;"/>
+<div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+<h5>{{ blogs.0.title }}</h5>
+<p>{{ blogs.0.description|truncatechars:100 }}</p>
+</div>
+</div>
+    {% endif %}
+
+    {% if projects %}
+    <div class="carousel-item {% if not blogs %}active{% endif %}">
+<img alt="Latest Project" class="d-block w-100" src="{{ projects.0.image.url }}" style="max-height:500px; object-fit:cover;"/>
+<div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+<h5>{{ projects.0.title }}</h5>
+<p>{{ projects.0.description|truncatechars:100 }}</p>
+</div>
+</div>
+    {% endif %}
+
+    <div class="carousel-item {% if not blogs and not projects %}active{% endif %}">
+<img alt="Fallback Slide" class="d-block w-100" src="{% static 'images/fallback.jpg' %}" style="max-height:500px; object-fit:cover;"/>
+<div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-3">
+<h5>Welcome to Dr Shoko</h5>
+<p>Stay tuned for our latest updates and insights.</p>
+</div>
+</div>
+</div>
+<button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#mainCarousel" type="button">
+<span aria-hidden="true" class="carousel-control-prev-icon"></span>
+<span class="visually-hidden">Previous</span>
+</button>
+<button class="carousel-control-next" data-bs-slide="next" data-bs-target="#mainCarousel" type="button">
+<span aria-hidden="true" class="carousel-control-next-icon"></span>
+<span class="visually-hidden">Next</span>
+</button>
+</div>
+
+{% endblock %}

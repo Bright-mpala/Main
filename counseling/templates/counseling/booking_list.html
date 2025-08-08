@@ -1,0 +1,131 @@
+{% extends 'core/base.html' %}
+{%block title %}Booking | Dashboard{% endblock %}
+{% block content %}
+
+<style>
+    .booking-status {
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+
+    .status-approved {
+        color: #155724;
+        background-color: #d4edda;
+    }
+
+    .status-pending {
+        color: #856404;
+        background-color: #fff3cd;
+    }
+
+    .fade-in {
+        animation: fadeIn 0.6s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tab {
+        display: inline-block;
+        margin: 0 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .tab.active {
+        color: #fff;
+        background: #007bff;
+        padding: 5px 15px;
+        border-radius: 5px;
+    }
+    .dashboard {
+        background: #f4f7fc;
+        padding: 60px 20px;
+        min-height: 100vh;
+    }
+
+    .welcome-card {
+        background: linear-gradient(135deg, #e8e7ec, #f2f3f7);
+        color: white;
+        padding: 40px 30px;
+        border-radius: 15px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 1s ease-in;
+    }
+
+</style>
+
+<div class="dashboard container">
+    <!-- Welcome Card -->
+    <div class="welcome-card text-center">
+        <h2 class="mb-3">Your Counseling Dashboard</h2>
+        <p class="lead">Here you can view and track all your session bookings.</p>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="text-center mb-4">
+        <a href="?filter=upcoming" class="tab {% if filter == 'upcoming' %}active{% endif %}">Upcoming</a>
+        <a href="?filter=past" class="tab {% if filter == 'past' %}active{% endif %}">Past</a>
+    </div>
+
+    {% if bookings %}
+    <ul class="list-group shadow-sm">
+        {% for booking in bookings %}
+        <li class="list-group-item d-flex justify-content-between align-items-center fade-in">
+            <div>
+                <h5 class="mb-1">{{ booking.counseling_type.name }}</h5>
+                <small>{{ booking.date }} at {{ booking.time }}</small>
+                <br>
+                <span class="booking-status {% if booking.approved %}status-approved{% else %}status-pending{% endif %}">
+                    {% if booking.approved %}✔ Approved{% else %}⏳ Pending{% endif %}
+                </span>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                    data-bs-target="#rescheduleModal{{ booking.id }}">Reschedule</button>
+                <form method="POST" action="{% url 'counseling:delete_booking' booking.id %}"
+                      onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Delete</button>
+                </form>
+            </div>
+        </li>
+
+        <!-- Reschedule Modal -->
+        <div class="modal fade" id="rescheduleModal{{ booking.id }}" tabindex="-1"
+            aria-labelledby="rescheduleModalLabel{{ booking.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <form method="POST" action="{% url 'counseling:reschedule_booking' booking.id %}">
+                    {% csrf_token %}
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="rescheduleModalLabel{{ booking.id }}">Reschedule Booking</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <label>Date</label>
+                            <input type="date" name="date" class="form-control" required>
+                            <label class="mt-2">Time</label>
+                            <input type="time" name="time" class="form-control" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Reschedule</button>
+                            <button type="button" class="btn btn-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="alert alert-info text-center mt-4">You have no bookings yet.</div>
+    {% endif %}
+</div>
+{% endblock %}

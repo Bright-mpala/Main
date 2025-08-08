@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body { font-family: Arial, sans-serif; color: #333; }
+    .email-container { padding: 20px; border: 1px solid #ddd; border-radius: 10px; background: #f5f9ff; max-width: 600px; margin: auto; }
+    .button { background-color: #28a745; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <h2>Hello {{ user.username }},</h2>
+    <p>Your counseling session has been <strong>approved</strong> for:</p>
+    <ul>
+      <li><strong>Date:</strong> {{ date }}</li>
+      <li><strong>Time:</strong> {{ time }}</li>
+    </ul>
+    <p>We look forward to meeting you. Please be on time.</p>
+    <p>Thank you,<br><strong>{{ site_name }}</strong></p>
+  </div>
+</body>
+</html>

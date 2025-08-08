@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>New Project Added</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .email-container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+    .header {
+      background-color: #007bff;
+      color: #ffffff;
+      padding: 20px;
+      text-align: center;
+    }
+    .content {
+      padding: 30px;
+      color: #333333;
+    }
+    .content h2 {
+      margin-top: 0;
+      color: #007bff;
+    }
+    .footer {
+      background-color: #f1f1f1;
+      color: #666666;
+      padding: 15px;
+      text-align: center;
+      font-size: 13px;
+    }
+    a.button {
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <h1>New Project Posted 🎉</h1>
+    </div>
+    <div class="content">
+      <h2>{{ project.title }}</h2>
+      <p><strong>Category:</strong> {{ project.category }}</p>
+      <p><strong>Status:</strong> {{ project.status }}</p>
+      <p><strong>Duration:</strong> {{ project.duration }} {{ project.duration_unit }}</p>
+      <p><strong>Description:</strong></p>
+      <p>{{ project.description }}</p>
+      
+      {% if project.url %}
+        <a href="{{ project.url }}" class="button">View Project</a>
+      {% endif %}
+    </div>
+    <div class="footer">
+      &copy; {{ current_year }} Pravic Projects. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>

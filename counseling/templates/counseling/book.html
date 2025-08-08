@@ -1,0 +1,190 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block content %}
+{%block title%}Book{%endblock%}
+
+<!-- Bootstrap 5 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Flatpickr CSS -->
+<link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+
+<style>
+  .fade-in {
+    animation: fadeIn 1s ease-in-out;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  label {
+    font-weight: 600;
+    color: #fcfcfc;
+  }
+  #availability-msg {
+    font-weight: 600;
+    margin-top: 0.5rem;
+  }
+  /* Spinner animation */
+  .spinner-border {
+    width: 1.2rem;
+    height: 1.2rem;
+    vertical-align: text-bottom;
+    margin-left: 0.5rem;
+  }
+</style>
+
+<div class="container mt-5 fade-in">
+  <div class="card shadow-lg p-4 rounded-4" style="max-width: 600px; margin: auto; background: linear-gradient(135deg, #295986 0%, #3d5870 100%); color: rgb(28, 29, 97);">
+    <h2 class="mb-4 text-center">Book a Counseling Session</h2>
+
+    <!-- Step 1: Booking Form -->
+    <form id="booking-form" method="post" novalidate aria-label="Counseling booking form">
+      {% csrf_token %}
+
+      <!-- Name (readonly) -->
+      <div class="mb-3">
+        <label for="id_name" class="form-label">Full Name</label>
+        <input type="text" class="form-control" id="id_name" name="name" value="{{ request.user.get_full_name|default:request.user.username }}" readonly aria-readonly="true" aria-describedby="nameHelp">
+        <div id="nameHelp" class="form-text">Your name as registered.</div>
+      </div>
+
+      <!-- Email (readonly) -->
+      <div class="mb-3">
+        <label for="id_email" class="form-label">Email Address</label>
+        <input type="email" class="form-control" id="id_email" name="email" value="{{ request.user.email }}" readonly aria-readonly="true" aria-describedby="emailHelp">
+        <div id="emailHelp" class="form-text">Your registered email address.</div>
+      </div>
+
+      <!-- Counseling Type -->
+      <div class="mb-3">
+        <label for="id_counseling_type" class="form-label">Counseling Type</label>
+        {{ form.counseling_type }}
+      </div>
+
+      <!-- Date -->
+      <div class="mb-3">
+        <label for="datePicker" class="form-label">Choose Date</label>
+        {{ form.date }}
+      </div>
+
+      <!-- Time -->
+      <div class="mb-3">
+        <label for="timePicker" class="form-label">Choose Time</label>
+        {{ form.time }}
+      </div>
+
+      <div id="availability-container" class="mb-3 d-flex align-items-center">
+        <p id="availability-msg" class="mb-0" role="alert" aria-live="polite" aria-atomic="true"></p>
+        <div id="spinner" class="spinner-border text-light ms-2" role="status" aria-hidden="true" style="display:none;"></div>
+      </div>
+
+      <button type="button" id="next-btn" class="btn btn-light w-100 mt-3 fw-bold" disabled aria-disabled="true">Next</button>
+    </form>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="confirmModalLabel">Confirm Your Booking</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> <span id="conf-name"></span></p>
+        <p><strong>Email:</strong> <span id="conf-email"></span></p>
+        <p><strong>Counseling Type:</strong> <span id="conf-type"></span></p>
+        <p><strong>Date:</strong> <span id="conf-date"></span></p>
+        <p><strong>Time:</strong> <span id="conf-time"></span></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Edit</button>
+        <button type="submit" form="booking-form" class="btn btn-primary">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap 5 JS bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script>
+  flatpickr("#datePicker", {
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    disableMobile: "true"
+  });
+
+  flatpickr("#timePicker", {
+    enableTime: true,
+    noCalendar: true,
+    dateFormat: "H:i",
+    time_24hr: true,
+    disableMobile: "true"
+  });
+
+  const dateInput = document.querySelector("#datePicker");
+  const timeInput = document.querySelector("#timePicker");
+  const counselingTypeInput = document.querySelector("#id_counseling_type");
+  const msg = document.getElementById("availability-msg");
+  const spinner = document.getElementById("spinner");
+  const nextBtn = document.getElementById("next-btn");
+
+  function setButtonState(enabled) {
+    nextBtn.disabled = !enabled;
+    nextBtn.setAttribute('aria-disabled', !enabled);
+    nextBtn.style.cursor = enabled ? 'pointer' : 'not-allowed';
+  }
+
+  async function checkAvailability() {
+    const date = dateInput.value;
+    const time = timeInput.value;
+    if (date && time) {
+      spinner.style.display = 'inline-block';
+      msg.textContent = '';
+      try {
+        const response = await fetch(`/counseling/check-availability/?date=${date}&time=${time}`);
+        const data = await response.json();
+        if (data.available) {
+          msg.textContent = "Slot available ✅";
+          msg.style.color = '#d1ffd6'; // light green
+          setButtonState(true);
+        } else {
+          msg.textContent = "Slot taken ❌ Please select another time.";
+          msg.style.color = '#ff9aa2'; // light red
+          setButtonState(false);
+        }
+      } catch (error) {
+        msg.textContent = "Error checking availability.";
+        msg.style.color = '#ffd966'; // amber
+        setButtonState(false);
+      } finally {
+        spinner.style.display = 'none';
+      }
+    } else {
+      msg.textContent = "";
+      setButtonState(false);
+    }
+  }
+
+  dateInput.addEventListener("change", checkAvailability);
+  timeInput.addEventListener("change", checkAvailability);
+
+  // Confirmation modal logic
+  const confirmModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+  nextBtn.addEventListener('click', () => {
+    document.getElementById('conf-name').textContent = document.getElementById('id_name').value;
+    document.getElementById('conf-email').textContent = document.getElementById('id_email').value;
+    document.getElementById('conf-type').textContent = counselingTypeInput.options[counselingTypeInput.selectedIndex].text;
+    document.getElementById('conf-date').textContent = dateInput.value;
+    document.getElementById('conf-time').textContent = timeInput.value;
+    confirmModal.show();
+  });
+</script>
+
+{% endblock %}

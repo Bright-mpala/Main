@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7fafc;
+      color: #333;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #2c5282;
+    }
+    p {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .button {
+      display: inline-block;
+      background-color: #3182ce;
+      color: white !important;
+      padding: 12px 25px;
+      margin-top: 20px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      box-shadow: 0 3px 6px rgba(49,130,206,0.4);
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #2b6cb0;
+    }
+    .footer {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Your Counseling Appointment Has Been Rescheduled</h2>
+    <p>Hello {{ user.username }},</p>
+    <p>Your counseling session has been rescheduled to:</p>
+    <p><strong>{{ new_date }}</strong> at <strong>{{ new_time }}</strong></p>
+    <p>Please confirm your availability by clicking the button below, or contact us if you need further assistance.</p>
+
+    <a href="{{ confirm_url }}" class="button" target="_blank" rel="noopener">Confirm Appointment</a>
+
+    <p class="footer">
+      Thank you for choosing our counseling services.
+    </p>
+  </div>
+</body>
+</html>
